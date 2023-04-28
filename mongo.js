@@ -20,6 +20,7 @@ const likes=process.argv[6]
 
 const url = `mongodb+srv://fullstack:${password}@cluster0.ezwn4oa.mongodb.net/app-bloglist?retryWrites=true&w=majority`
 
+mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const blogSchema = new mongoose.Schema({
@@ -46,9 +47,9 @@ blog.save().then(result=>{
 })
 
 //Select
-Blog.find({}).then(result=>{
+/* Blog.find({}).then(result=>{
     result.forEach(blog => {
         console.log(blog)
     })
     mongoose.connection.close()
-})
+}) */
