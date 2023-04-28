@@ -31,7 +31,7 @@ app.get('/api/blogs', (request, response) => {
     })
 })
 
-//Agregar nuevos 
+//Agregar nuevoss
 app.post('/api/blogs', (request, response) => {
   //Tiene que tener la sintaxis del objeto
   const body = request.body
