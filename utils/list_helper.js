@@ -22,27 +22,102 @@ const favouriteBlog = (blogs) => {
         else
             return actual
     })
-    console.log('Favourite blog has ', favourite)
+
+    /* console.log(favourite) */
+    console.log('title ', favourite.title)
+    console.log('author ', favourite.author)
+    console.log('likes ', favourite.likes)
+    console.log({
+        title: favourite.title,
+        author: favourite.author,
+        likes: favourite.likes
+    })
     return (
-        favourite
+        /* favourite */
+        {
+            title: favourite.title,
+            author: favourite.author,
+            likes: favourite.likes
+        }
     )
 }
 
 const mostBlogs = (blogs) => {
 
-    const authors = lodash.countBy(blogs, 'author')
-    const maxValue = Math.max(...Object.values(authors))
-    const maxIndex = Object.keys(authors).find(i => authors[i] === maxValue)
+    //Obtiene un objeto/Version Lodash
+    const blogsByAuthor = lodash.countBy(blogs, 'author')
+
+    //Version sin lodash
+    /* const blogsByAuthor = blogs.reduce((acc, blog) => {
+        //Se accede al objeto con el acumulador, en la propiedad del nombre
+        //Si existe el autor ,se devuelven sus instancias asociadas y se le suma 1, caso contrario devuelve 0 y se suma 1
+        acc[blog.author] = (acc[blog.author] || 0) + 1
+        return acc
+    }, {}) */
+
+    //Convierte el objeto a un arreglo que obtiene los valores y de ese el maximo. Se usa ... para analizar
+    const maxValue = Math.max(...Object.values(blogsByAuthor))
+    index = Object.values(blogsByAuthor).indexOf(maxValue)
+    //Convierte el objeto en un arreglo y de eso obtener el nombre del autor
+    const maxAuthor = Object.keys(blogsByAuthor)[index]
 
     console.log('Prueba LODASH')
-    console.log(authors)
+    console.log(blogsByAuthor)
     console.log(maxValue)
-    console.log(maxIndex)
+    console.log(maxAuthor)
+    console.log(
+        {
+            "author": maxAuthor,
+            "blogs": maxValue
+        }
+    )
 
     return (
         {
-            "author": maxIndex,
+            "author": maxAuthor,
             "blogs": maxValue
+        }
+    )
+}
+
+const mostLikes = (blogs) => {
+
+    //Version lodash
+    const likesByAuthor = lodash.reduce(blogs, (acc, blog) => {
+        //Se accede al objeto con el acumulador, en la propiedad del nombre
+        //Si existe el autor ,se devuelven sus likes asociados y se le suman, caso contrario devuelve 0 y se suman likes
+        acc[blog.author] = (acc[blog.author] || 0) + blog.likes
+        //console.log(acc)
+        return acc
+    }, {})
+
+    //Version sin Lodash
+    /* const likesByAuthor = blogs.reduce((acc, blog) => {
+        //Se accede al objeto con el acumulador, en la propiedad del nombre
+        //Si existe el autor ,se devuelven sus likes asociados y se le suman, caso contrario devuelve 0 y se suman likes
+        acc[blog.author] = (acc[blog.author] || 0) + blog.likes
+        console.log(acc)
+        return acc
+    }, {}) */
+
+    //Maximo indice
+    const maxLikes = Math.max(...Object.values(likesByAuthor))
+    index = Object.values(likesByAuthor).indexOf(maxLikes)
+    const maxAuthor = Object.keys(likesByAuthor)[index]
+
+    console.log(maxAuthor)
+    console.log(maxLikes)
+    console.log(
+        {
+            "author": maxAuthor,
+            "likes": maxLikes
+        }
+    )
+
+    return (
+        {
+            "author": maxAuthor,
+            "likes": maxLikes
         }
     )
 }
@@ -51,5 +126,6 @@ module.exports = {
     dummy,
     totalLikes,
     favouriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
