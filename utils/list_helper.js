@@ -1,3 +1,5 @@
+const lodash = require('lodash')
+
 const dummy = (blogs) => {
     return 1
 }
@@ -13,20 +15,41 @@ const totalLikes = (blogs) => {
 
 const favouriteBlog = (blogs) => {
     console.log('Test of entry with highest n of likes')
+
     const favourite = blogs.reduce((previous, actual) => {
         if (previous.likes > actual.likes)
             return previous
         else
             return actual
     })
-    console.log('Favourite blog has ',favourite)
+    console.log('Favourite blog has ', favourite)
     return (
         favourite
+    )
+}
+
+const mostBlogs = (blogs) => {
+
+    const authors = lodash.countBy(blogs, 'author')
+    const maxValue = Math.max(...Object.values(authors))
+    const maxIndex = Object.keys(authors).find(i => authors[i] === maxValue)
+
+    console.log('Prueba LODASH')
+    console.log(authors)
+    console.log(maxValue)
+    console.log(maxIndex)
+
+    return (
+        {
+            "author": maxIndex,
+            "blogs": maxValue
+        }
     )
 }
 
 module.exports = {
     dummy,
     totalLikes,
-    favouriteBlog
+    favouriteBlog,
+    mostBlogs
 }
