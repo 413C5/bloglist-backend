@@ -35,7 +35,7 @@ describe('1.-Blogs are returned correctly:', () => {
       'Canonical string reduction')
   })
 
-  test.only('unique identifier property of the blog posts is named id', async () => {
+  test('unique identifier property of the blog is named id', async () => {
     const blogs = await helper.blogsInDb()
     const blogKeys = Object.keys(blogs[0])
     const blogIds = blogs.map(r => r.id)
@@ -44,6 +44,7 @@ describe('1.-Blogs are returned correctly:', () => {
     expect(blogKeys).not.toContain('_id')
     expect(blogIds[0]).toBeDefined()
   })
+
 })
 
 
@@ -66,9 +67,9 @@ describe('2.-Viewing blogs:', () => {
 
 describe('3.-Adding blogs:', () => {
 
-  test('a valid blog can be added ', async () => {
+  test.only('a valid blog is added ', async () => {
     const newBlog = {
-      title: 'Type wars',
+      title: 'Type wars 8 Test',
       author: 'Robert C. Martin',
       url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
       likes: 2
@@ -84,7 +85,8 @@ describe('3.-Adding blogs:', () => {
 
     const titles = blogsAtEnd.map(r => r.title)
     expect(titles).toContain(
-      'Type wars')
+      'Type wars 8 Test')
+    
   })
 
   test('blog without title is not added', async () => {

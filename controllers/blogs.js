@@ -1,6 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-
+const { listen } = require('../app')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
@@ -17,6 +17,7 @@ blogsRouter.get('/:id', async (request, response) => {
   }
 
 })
+
 
 blogsRouter.post('/', async (request, response) => {
   //Tiene que tener la sintaxis del objeto
