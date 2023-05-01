@@ -11,6 +11,7 @@ const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
+require('express-async-errors')
 
 const url = config.MONGODB_URI
 
