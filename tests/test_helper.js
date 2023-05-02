@@ -2,10 +2,10 @@ const Blog = require('../models/blog')
 
 const nonExistingId = async () => {
   const blog = new Blog({
-    title: 'NO NO NO NO NO NO NO NO NO NO',
-    author: 'NO NO NO NO NO NO NO NO NO NO',
-    url: 'NO NO NO NO NO NO NO NO NO NO',
-    likes: 777
+    title: 'title-soon-to-be-removed',
+    author: 'author-soon-to-be-removed',
+    url: 'url-soon-to-be-removed',
+    likes: 1
   })
   await blog.save()
   await blog.remove()

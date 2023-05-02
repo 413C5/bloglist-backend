@@ -72,6 +72,22 @@ describe('2.-Viewing blogs:', () => {
     expect(resultBlog.body).toEqual(processedBlogToView)
   })
 
+  test('viewing a blog fails with 400 if id not valid', async () => {
+    const invalidId = '5a3d5da59070081a82a3445rairai'
+
+    await api
+      .get(`/api/blogs/${invalidId}`)
+      .expect(400)
+  })
+
+  test('viewing blog fails with 404 if blog does not exist', async () => {
+    const validNonexistingId = await helper.nonExistingId()
+
+    await api
+      .get(`/api/blogs/${validNonexistingId}`)
+      .expect(404)
+  })
+
 })
 
 describe('3.-Adding blogs:', () => {
@@ -118,7 +134,7 @@ describe('3.-Adding blogs:', () => {
     expect(likes).toContain(0)
   })
 
-  test.only('blog without title is not added', async () => {
+  test('blog without title is not added', async () => {
     const newBlog = {
       author: 'Robert C. Martin',
       url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
@@ -134,7 +150,7 @@ describe('3.-Adding blogs:', () => {
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 
-  test.only('blog without author is not added', async () => {
+  test('blog without author is not added', async () => {
     const newBlog = {
       title: 'First class tests',
       url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.html',
@@ -150,7 +166,7 @@ describe('3.-Adding blogs:', () => {
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 
-  test.only('blog without url is not added', async () => {
+  test('blog without url is not added', async () => {
     const newBlog = {
       title: 'First class tests',
       author: 'Robert C. Martin',
@@ -167,10 +183,9 @@ describe('3.-Adding blogs:', () => {
   })
 })
 
-
 describe('4.-Deleting blogs:', () => {
 
-  test('a blog can be deleted', async () => {
+  test.only('a blog can be deleted', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 

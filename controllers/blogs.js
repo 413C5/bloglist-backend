@@ -2,11 +2,13 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const { listen } = require('../app')
 
+//Select *
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
   response.json(blogs)
 })
 
+//Select ID
 blogsRouter.get('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
 
@@ -19,7 +21,7 @@ blogsRouter.get('/:id', async (request, response) => {
 
 })
 
-
+//Insert
 blogsRouter.post('/', async (request, response) => {
   //Tiene que tener la sintaxis del objeto
   const body = request.body
@@ -47,7 +49,7 @@ blogsRouter.post('/', async (request, response) => {
 
 })
 
-
+//Delete
 blogsRouter.delete('/:id', async (request, response) => {
   await Blog.findByIdAndRemove(request.params.id)
   response.status(204).end()
