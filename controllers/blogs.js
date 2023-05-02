@@ -24,23 +24,28 @@ blogsRouter.post('/', async (request, response) => {
   const body = request.body
   console.log(body)
 
-  if (!body.title || !body.author || !body.url || !body.likes) {
+  if (!body.title || !body.author || !body.url) {
     return response.status(400).json({
       error: 'content is missing'
     })
   }
 
+  const likes = body.likes === undefined
+    ? 0
+    : body.likes
+
   const blog = new Blog({
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: likes
   })
 
   const savedBlog = await blog.save()
   response.status(201).json(savedBlog)
 
 })
+
 
 blogsRouter.delete('/:id', async (request, response) => {
   await Blog.findByIdAndRemove(request.params.id)

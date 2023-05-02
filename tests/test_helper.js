@@ -47,7 +47,7 @@ const initialBlogs = [
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    likes: 0,
+    likes: 5,
   },
   {
     title: 'Type wars',
@@ -104,7 +104,7 @@ const listWithManyBlogs = [
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    likes: 0,
+    likes: 5,
     id: '5a422ba71b54a676234d17fb'
   },
   {

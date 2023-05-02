@@ -67,7 +67,7 @@ describe('2.-Viewing blogs:', () => {
 
 describe('3.-Adding blogs:', () => {
 
-  test.only('a valid blog is added ', async () => {
+  test('a valid blog is added ', async () => {
     const newBlog = {
       title: 'Type wars 8 Test',
       author: 'Robert C. Martin',
@@ -87,6 +87,26 @@ describe('3.-Adding blogs:', () => {
     expect(titles).toContain(
       'Type wars 8 Test')
     
+  })
+
+  test.only('a valid blog 0 likes is added and has 0 likes', async () => {
+    const newBlog = {
+      title: 'First class tests',
+      author: 'Robert C. Martin',
+      url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.html'
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length +1)
+
+    const likes = blogsAtEnd.map(r => r.likes)
+    expect(likes).toContain(0)
   })
 
   test('blog without title is not added', async () => {
