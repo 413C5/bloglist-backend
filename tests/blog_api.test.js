@@ -45,6 +45,15 @@ describe('1.-Blogs are returned correctly:', () => {
     expect(blogIds[0]).toBeDefined()
   })
 
+  test('returned blogs have properties title, author, url and likes', async () => {
+    const blogs = await helper.blogsInDb()
+    const blogKeys = Object.keys(blogs[0])
+
+    expect(blogKeys).toContain('title')
+    expect(blogKeys).toContain('author')
+    expect(blogKeys).toContain('url')
+    expect(blogKeys).toContain('likes')
+  })
 })
 
 
@@ -69,11 +78,12 @@ describe('3.-Adding blogs:', () => {
 
   test('a valid blog is added ', async () => {
     const newBlog = {
-      title: 'Type wars 8 Test',
+      title: 'Type wars 10 Test',
       author: 'Robert C. Martin',
       url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
       likes: 2
     }
+
     await api
       .post('/api/blogs')
       .send(newBlog)
@@ -85,11 +95,10 @@ describe('3.-Adding blogs:', () => {
 
     const titles = blogsAtEnd.map(r => r.title)
     expect(titles).toContain(
-      'Type wars 8 Test')
-    
+      'Type wars 10 Test')
   })
 
-  test.only('a valid blog 0 likes is added and has 0 likes', async () => {
+  test('a valid blog with 0 likes is added and has 0 likes', async () => {
     const newBlog = {
       title: 'First class tests',
       author: 'Robert C. Martin',
@@ -103,18 +112,19 @@ describe('3.-Adding blogs:', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length +1)
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
     const likes = blogsAtEnd.map(r => r.likes)
     expect(likes).toContain(0)
   })
 
-  test('blog without title is not added', async () => {
+  test.only('blog without title is not added', async () => {
     const newBlog = {
       author: 'Robert C. Martin',
       url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
       likes: 10,
     }
+
     await api
       .post('/api/blogs')
       .send(newBlog)
@@ -124,6 +134,37 @@ describe('3.-Adding blogs:', () => {
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 
+  test.only('blog without author is not added', async () => {
+    const newBlog = {
+      title: 'First class tests',
+      url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.html',
+      likes: 10,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  })
+
+  test.only('blog without url is not added', async () => {
+    const newBlog = {
+      title: 'First class tests',
+      author: 'Robert C. Martin',
+      likes: 10,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  })
 })
 
 
@@ -145,18 +186,6 @@ describe('4.-Deleting blogs:', () => {
     expect(titles).not.toContain(blogToDelete.title)
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 afterAll(async () => {
