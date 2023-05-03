@@ -1,6 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const { listen } = require('../app')
+
 
 //Select *
 blogsRouter.get('/', async (request, response) => {
@@ -27,12 +27,12 @@ blogsRouter.post('/', async (request, response) => {
   const body = request.body
   console.log(body)
 
-  if (!body.title || !body.author || !body.url) {
+   if (!body.title || !body.author || !body.url) {
     return response.status(400).json({
       error: 'content is missing'
     })
-  }
-
+  } 
+ 
   const likes = body.likes === undefined
     ? 0
     : body.likes
@@ -55,7 +55,8 @@ blogsRouter.delete('/:id', async (request, response) => {
   response.status(204).end()
 })
 
-blogsRouter.put('/:id', (request, response, next) => {
+//Update
+blogsRouter.put('/:id', async (request, response, next) => {
   const body = request.body
 
   const blog = {
@@ -65,11 +66,8 @@ blogsRouter.put('/:id', (request, response, next) => {
     likes: body.likes
   }
 
-  Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-    .then(updatedBlog => {
-      response.json(updatedBlog)
-    })
-    .catch(error => next(error))
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  response.json(updatedBlog)
 })
 
 module.exports = blogsRouter

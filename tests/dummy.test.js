@@ -9,7 +9,7 @@ test('dummy returns one', () => {
 })
 
 //Obtencion del likes totales del arreglo blog
-describe('total likes', () => {
+describe('1.-Total likes', () => {
   const listWithOneBlog = [
     {
       _id: '5a422aa71b54a676234d17f8',
@@ -84,7 +84,7 @@ describe('total likes', () => {
 })
 
 //Obtencion del blog favorito
-describe('highest number of likes', () => {
+describe('2.-Highest number of likes', () => {
   const blogs = [
     {
       _id: "5a422a851b54a676234d17f7",
@@ -151,7 +151,7 @@ describe('highest number of likes', () => {
 })
 
 //Obtencion autor con más blogs
-describe('author with most blogs', () => {
+describe('3.-Author with most blogs', () => {
   const blogs = [
     {
       _id: "5a422a851b54a676234d17f7",
@@ -215,7 +215,7 @@ describe('author with most blogs', () => {
 })
 
 //Obtencion de autor con más likes
-describe('author with most likes', () => {
+describe('4.-Author with most likes', () => {
   const blogs = [
     {
       _id: "5a422a851b54a676234d17f7",

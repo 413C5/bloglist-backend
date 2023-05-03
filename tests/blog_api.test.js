@@ -80,7 +80,7 @@ describe('2.-Viewing blogs:', () => {
       .expect(400)
   })
 
-  test('viewing blog fails with 404 if blog does not exist', async () => {
+  test('viewing blog fails with statuscode 404 if blog does not exist', async () => {
     const validNonexistingId = await helper.nonExistingId()
 
     await api
@@ -185,7 +185,7 @@ describe('3.-Adding blogs:', () => {
 
 describe('4.-Deleting blogs:', () => {
 
-  test.only('a blog can be deleted', async () => {
+  test('a blog can be deleted', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
@@ -200,6 +200,34 @@ describe('4.-Deleting blogs:', () => {
     const titles = blogsAtEnd.map(r => r.title)
     expect(titles).not.toContain(blogToDelete.title)
   })
+})
+
+describe('5.-Updating blogs:', () => {
+
+  test('a blog can be updated', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const updatedBlog = {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+      likes: 9999
+    }
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+    const likes = blogsAtEnd.map(r => r.likes)
+    expect(likes).not.toContain(blogToUpdate.likes)
+    expect(likes).toContain(9999)
+  })
+
 })
 
 
