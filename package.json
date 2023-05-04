@@ -12,12 +12,17 @@
   "author": "Alejandro Gonzalez Zarate",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "express-jwt": "^8.4.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
-    "mongoose": "^7.1.0"
+    "mongoose": "^7.1.0",
+    "mongoose-unique-validator": "^4.0.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
