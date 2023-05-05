@@ -31,18 +31,13 @@ blogsRouter.post('/', async (request, response) => {
   //Tiene que tener la sintaxis del objeto
   const body = request.body
   console.log(body)
+  const user = await request.user
 
    if (!body.title || !body.author || !body.url) {
     return response.status(400).json({
       error: 'content is missing'
     })
   } 
-
-  const userId = body.user === undefined
-    ? '62de8da5182763d81e70bd91'
-    : body.user
-
-  let user = await User.findById(userId)
  
   const likes = body.likes === undefined
     ? 0
