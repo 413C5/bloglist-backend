@@ -14,7 +14,7 @@ beforeEach(async () => {
   const user = new User({
     username: 'admin admin',
     name: 'admin admin',
-    passwordHash
+    passwordHash:passwordHash
   })
 
   await user.save()
@@ -29,7 +29,7 @@ describe('1.-User creation', () => {
     const newUser = {
       username: 'aaaaa aaaaa ',
       name: 'aaaaa aaaaa',
-      password: 'aaaaa aaaaa',
+      passwordHash: 'aaaaa aaaaa',
     }
 
     await api
@@ -51,7 +51,7 @@ describe('1.-User creation', () => {
     const newUser = {
       username: 'admin admin',
       name: 'admin admin',
-      password: 'cisco cisco',
+      passwordHash: 'cisco cisco',
     }
 
     const result = await api
@@ -74,7 +74,7 @@ describe('1.-User creation', () => {
     const newUser = {
       username: 'b',
       name: 'bbbbbb bbbbb',
-      password: 'bbbbb bbbbb'
+      passwordHash: 'bbbbb bbbbb'
     }
 
     const result = await api
@@ -95,7 +95,7 @@ describe('1.-User creation', () => {
 
     const newUser = {
       name: 'ccccc ccccc',
-      password: 'ccccc ccccc'
+      passwordHash: 'ccccc ccccc'
     }
 
     const result = await api
@@ -116,7 +116,7 @@ describe('1.-User creation', () => {
 
     const newUser = {
       username:'fffff fffff',
-      password: 'fffff fffff'
+      passwordHash: 'fffff fffff'
     }
 
     const result = await api
@@ -142,7 +142,7 @@ describe('2.-Password test', () => {
     const newUser = {
       username: 'ddddd ddddd',
       name: 'ddddd ddddd',
-      password: 'd'
+      passwordHash: 'd'
     }
 
     const result = await api
@@ -151,7 +151,7 @@ describe('2.-Password test', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    const validationErrorMessage = 'password must be at least 3 characters long'
+    const validationErrorMessage = 'passwordHash must be at least 3 characters long'
     expect(result.body.error).toContain(validationErrorMessage)
 
     const usersAtEnd = await helper.usersInDb()
@@ -172,7 +172,7 @@ describe('2.-Password test', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    const validationErrorMessage = 'password is missing'
+    const validationErrorMessage = 'passwordHash is missing'
     expect(result.body.error).toContain(validationErrorMessage)
 
     const usersAtEnd = await helper.usersInDb()

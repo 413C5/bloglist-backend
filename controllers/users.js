@@ -4,17 +4,23 @@ const User = require('../models/user')
 
 //Select *
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({})
+  const users = await User
+    .find({})
+    .populate('blogs', { title: 1, author: 1, url: 1, likes: 1 })
+
   response.json(users)
 })
 
 //Select id
 usersRouter.get('/:id', async (request, response) => {
-  const user = await User.findById(request.params.id)
+  const user = await User
+    .findById(request.params.id)
+    .populate('blogs', { title: 1, author: 1, url: 1, likes: 1 })
 
   if (user) {
     response.json(user)
-  } else {
+  } 
+  else {
     response.status(404).end()
   }
 
@@ -23,45 +29,45 @@ usersRouter.get('/:id', async (request, response) => {
 
 //Insert
 usersRouter.post('/', async (request, response) => {
-  const { username, name, password } = request.body
+  const body = request.body
 
-  if (!username) {
+  if (!body.username) {
     return response.status(400).json({
       error: 'username is missing'
     })
   }
 
-  if (username.length < 3) {
+  if (body.username.length < 3) {
     return response.status(400).json({
       error: 'username must be at least 3 characters long'
     })
   }
 
-  if (!name) {
+  if (!body.name) {
     return response.status(400).json({
       error: 'name is missing'
     })
   }
 
-  if (!password) {
+  if (!body.passwordHash) {
     return response.status(400).json({
-      error: 'password is missing'
+      error: 'passwordHash is missing'
     })
   }
 
-  if (password.length < 3) {
+  if (body.passwordHash.length < 3) {
     return response.status(400).json({
-      error: 'password must be at least 3 characters long'
+      error: 'passwordHash must be at least 3 characters long'
     })
   }
 
   const saltRounds = 10
-  const passwordHash = await bcrypt.hash(password, saltRounds)
+  const passwordHash = await bcrypt.hash(body.passwordHash, saltRounds)
 
   const user = new User({
-    username,
-    name,
-    passwordHash
+    username:body.username,
+    name:body.username,
+    passwordHash:passwordHash
   })
 
   const savedUser = await user.save()

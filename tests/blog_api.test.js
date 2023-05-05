@@ -90,7 +90,7 @@ describe('2.-Viewing blogs:', () => {
 
 })
 
-describe('3.-Adding blogs:', () => {
+describe.only('3.-Adding blogs:', () => {
 
   test('a valid blog is added ', async () => {
     const newBlog = {
