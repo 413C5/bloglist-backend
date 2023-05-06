@@ -10,6 +10,19 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
+const userExtractor = (request, response, next) => {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  if (!request.token || !decodedToken.id) {
+    return response.status(401).json({
+      error: 'token missing or invalid'
+    })
+  }
+
+  request.user = User.findById(decodedToken.id)
+  next()
+}
+
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
 
@@ -59,6 +72,7 @@ const errorHandler = (error, request, response, next) => {
 
 module.exports = {
   requestLogger,
+  userExtractor,
   tokenExtractor,
   unknownEndpoint,
   unknownPath,

@@ -17,13 +17,10 @@ usersRouter.get('/:id', async (request, response) => {
     .findById(request.params.id)
     .populate('blogs', { title: 1, author: 1, url: 1, likes: 1 })
 
-  if (user) {
+  if (user)
     response.json(user)
-  } 
-  else {
+  else
     response.status(404).end()
-  }
-
 })
 
 
@@ -65,9 +62,9 @@ usersRouter.post('/', async (request, response) => {
   const passwordHash = await bcrypt.hash(body.passwordHash, saltRounds)
 
   const user = new User({
-    username:body.username,
-    name:body.username,
-    passwordHash:passwordHash
+    username: body.username,
+    name: body.username,
+    passwordHash: passwordHash
   })
 
   const savedUser = await user.save()
