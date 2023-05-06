@@ -24,7 +24,7 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON())
 }
 
-const initialBlogs = [
+/* const initialBlogs = [
   {
     title: 'React patterns',
     author: 'Michael Chan',
@@ -61,11 +61,50 @@ const initialBlogs = [
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
   },
+] */
+
+ const initialBlogs = [
+  {
+    title: 'TDD harms architecture',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+    likes: 5
+  },
+  {
+    title: 'Canonical string reduction',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+    likes: 12
+  }
+] 
+
+const initialUsers = [
+  {
+    username: 'timtes',
+    name: 'Timothy Testson',
+    password: 'testpassword123'
+  },
+  {
+    username: 'admin admin',
+    name: 'admin admin',
+    password: 'cisco cisco'
+  }
 ]
 
+const testUserCredentials = [{
+  username: initialUsers[0].username,
+  password: initialUsers[0].password
+},
+{
+  username: initialUsers[1].username,
+  password: initialUsers[1].password
+}
+]
 
 module.exports = {
   initialBlogs,
+  initialUsers,
+  testUserCredentials,
   nonExistingId,
   blogsInDb,
   usersInDb

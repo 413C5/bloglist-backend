@@ -11,10 +11,11 @@ beforeEach(async () => {
   await User.deleteMany({})
 
   const passwordHash = await bcrypt.hash('cisco cisco', 10)
+
   const user = new User({
-    username: 'admin admin',
     name: 'admin admin',
-    passwordHash:passwordHash
+    username: 'admin admin',
+    passwordHash
   })
 
   await user.save()
@@ -27,9 +28,9 @@ describe('1.-User creation', () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      username: 'aaaaa aaaaa ',
+      username: 'aaaaa aaaaa',
       name: 'aaaaa aaaaa',
-      passwordHash: 'aaaaa aaaaa',
+      password: 'aaaaa aaaaa',
     }
 
     await api
@@ -51,7 +52,7 @@ describe('1.-User creation', () => {
     const newUser = {
       username: 'admin admin',
       name: 'admin admin',
-      passwordHash: 'cisco cisco',
+      password: 'cisco cisco',
     }
 
     const result = await api
@@ -74,7 +75,7 @@ describe('1.-User creation', () => {
     const newUser = {
       username: 'b',
       name: 'bbbbbb bbbbb',
-      passwordHash: 'bbbbb bbbbb'
+      password: 'bbbbbb bbbbb'
     }
 
     const result = await api
@@ -95,7 +96,7 @@ describe('1.-User creation', () => {
 
     const newUser = {
       name: 'ccccc ccccc',
-      passwordHash: 'ccccc ccccc'
+      password: 'ccccc ccccc'
     }
 
     const result = await api
@@ -115,8 +116,8 @@ describe('1.-User creation', () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      username:'fffff fffff',
-      passwordHash: 'fffff fffff'
+      username: 'fffff fffff',
+      password: 'fffff fffff'
     }
 
     const result = await api
@@ -134,6 +135,7 @@ describe('1.-User creation', () => {
 
 })
 
+
 describe('2.-Password test', () => {
 
   test('user creation fails if password < 3 char', async () => {
@@ -142,7 +144,7 @@ describe('2.-Password test', () => {
     const newUser = {
       username: 'ddddd ddddd',
       name: 'ddddd ddddd',
-      passwordHash: 'd'
+      password: 'd'
     }
 
     const result = await api
@@ -151,19 +153,20 @@ describe('2.-Password test', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    const validationErrorMessage = 'passwordHash must be at least 3 characters long'
+    const validationErrorMessage = 'password must be at least 3 characters long'
     expect(result.body.error).toContain(validationErrorMessage)
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
+
 
   test('user creation fails if password is missing', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
       username: 'eeeee eeeee',
-      name: 'eeeee eeeee '
+      name: 'eeeee eeeee'
     }
 
     const result = await api
@@ -172,14 +175,12 @@ describe('2.-Password test', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    const validationErrorMessage = 'passwordHash is missing'
+    const validationErrorMessage = 'password is missing'
     expect(result.body.error).toContain(validationErrorMessage)
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
-
-
 })
 
 afterAll(async () => {

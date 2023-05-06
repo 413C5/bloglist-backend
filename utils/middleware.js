@@ -35,13 +35,13 @@ const tokenExtractor = (request, response, next) => {
   next()
 }
 
-const unknownEndpoint = (request, response) => {
+const unknownEndpoint = (request, response,next) => {
   response.status(404).send({
     error: 'unknown endpoint'
   })
 }
 
-const unknownPath = (request, response) => {
+const unknownPath = (request, response,next) => {
   response.status(404).json({
     error: 'unknown Path'
   })

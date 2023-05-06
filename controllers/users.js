@@ -17,54 +17,53 @@ usersRouter.get('/:id', async (request, response) => {
     .findById(request.params.id)
     .populate('blogs', { title: 1, author: 1, url: 1, likes: 1 })
 
-  if (user)
+  if (user) 
     response.json(user)
-  else
+  else 
     response.status(404).end()
 })
 
-
 //Insert
 usersRouter.post('/', async (request, response) => {
-  const body = request.body
+  const { username, name, password } = request.body
 
-  if (!body.username) {
+  if (!username) {
     return response.status(400).json({
       error: 'username is missing'
     })
   }
 
-  if (body.username.length < 3) {
+  if (username.length < 3) {
     return response.status(400).json({
       error: 'username must be at least 3 characters long'
     })
   }
 
-  if (!body.name) {
+  if (!name) {
     return response.status(400).json({
       error: 'name is missing'
     })
   }
 
-  if (!body.passwordHash) {
+  if (!password) {
     return response.status(400).json({
-      error: 'passwordHash is missing'
+      error: 'password is missing'
     })
   }
 
-  if (body.passwordHash.length < 3) {
+  if (password.length < 3) {
     return response.status(400).json({
-      error: 'passwordHash must be at least 3 characters long'
+      error: 'password must be at least 3 characters long'
     })
   }
 
   const saltRounds = 10
-  const passwordHash = await bcrypt.hash(body.passwordHash, saltRounds)
+  const passwordHash = await bcrypt.hash(password, saltRounds)
 
   const user = new User({
-    username: body.username,
-    name: body.username,
-    passwordHash: passwordHash
+    username,
+    name,
+    passwordHash
   })
 
   const savedUser = await user.save()
