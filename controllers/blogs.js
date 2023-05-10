@@ -48,6 +48,7 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
   })
 
   const savedBlog = await blog.save()
+  await savedBlog.populate('user', { username: 1, name: 1 })
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
   response.status(201).json(savedBlog)
@@ -85,7 +86,22 @@ blogsRouter.put('/:id', userExtractor, async (request, response) => {
   if (blog.user.toString() === user._id.toString()) {
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, dataForBlogUpdate, { new: true })
     response.json(updatedBlog)
-  } 
+  }
+  else {
+    response.status(401).json({
+      error: 'no permission'
+    })
+  }
+})
+
+//Update likes
+blogsRouter.put('/like/:id', userExtractor, async (request, response) => {
+  const user = await request.user
+
+  if (user) {
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, { $inc: { likes: 1 } }, { new: true })
+    response.json(updatedBlog)
+  }
   else {
     response.status(401).json({
       error: 'no permission'

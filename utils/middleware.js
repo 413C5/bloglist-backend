@@ -6,6 +6,7 @@ const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:', request.path)
   console.log('Body:', request.body)
+  logger.info('Authorization header:  ', request.headers.authorization)
   console.log('--------------------------------------')
   next()
 }
