@@ -8,7 +8,8 @@
     "start:dev": "cross-env NODE_ENV=development nodemon index.js",
     "start:test": "cross-env NODE_ENV=test nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:file": "cross-env NODE_ENV=test jest"
   },
   "author": "Alejandro Gonzalez Zarate",
   "license": "ISC",
